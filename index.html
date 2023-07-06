@@ -1,574 +1,90 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <base target="_top">
-    <?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
-  </head>
-  <body class="body">
-    <header class="App-header">
-      <div class="logo">Logres Damage Calc</div>
-    </header>
-    <div class="App-body">
-      <div class="装備ブロック">
-        <div class="自身の装備ブロック">
-          <div class="大ブロックタイトル">自身の装備</div>
-          <div name='自身の全武器ブロック'>
-            <div class='武器ブロック外枠' id='武器1'></div>
-            <div class='武器ブロック外枠' id='武器2'></div>
-            <div class='武器ブロック外枠' id='武器3'></div>
-            <div class='武器ブロック外枠' id='武器4'></div>
-            <div class='武器ブロック外枠' id='武器5'></div>
-          </div>
-          <div class="覚醒選択ブロック外枠" id='覚醒'></div>
-          <div class="エンブレム外枠" id='防具下'></div>
-          <div class="防具下ブロック外枠" id='防具下'></div>
-        </div>
-        <div class="補助の装備ブロック">
-          <div class="大ブロックタイトル">補助の装備</div>
-          <div id='補助の全武器ブロック'></div>
-          <div class="補助の装備追加ブロック" id="補助の装備追加">
-            <button onclick="補助の装備追加ブロック記入()">補助の装備追加</button>
-          </div>
-        </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progate</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-left">
+        <img class="logo" src="https://prog-8.com/images/html/advanced/main_logo.png">
       </div>
-
-      <div>
-        <div class="大ブロックタイトル">ゾーンとマナ</div>
-        <div name="ゾーンとマナブロック" class='ゾーンとマナブロック' id='ゾーンとマナブロック'>
-          <div name="ゾーン選択ブロック">
-            <div name="ゾーン選択タイトル" class="武器検索タイトル">ゾーン選択</div>
-            <div name="ゾーン選択プルダウン">
-              <select id="ゾーン選択プルダウンリスト" class="ゾーン選択プルダウンリスト"></select>
-            </div>
-          </div>
-          <div name="マナ選択ブロック">
-            <div name="マナ選択タイトル" class="武器検索タイトル">マナ選択</div>
-            <div name="マナ選択ブロック" class="マナ選択ブロック">
-              <input type="number" min="0" max="50" value="0" class="火マナ入力欄"/>
-              <input type="number" min="0" max="50" value="0" class="水マナ入力欄"/>
-              <input type="number" min="0" max="50" value="0" class="風マナ入力欄"/>
-              <input type="number" min="0" max="50" value="0" class="土マナ入力欄"/>
-              <input type="number" min="0" max="50" value="0" class="光マナ入力欄"/>
-              <input type="number" min="0" max="50" value="0" class="闇マナ入力欄"/>
-            </div>
-            <div name="マナ強化ブロック" class="マナ選択ブロック">
-              <button id="火マナ強化" class="火マナ強化" onclick="toggleButton(this)">強</button>
-              <button id="水マナ強化" class="水マナ強化" onclick="toggleButton(this)">強</button>
-              <button id="風マナ強化" class="風マナ強化" onclick="toggleButton(this)">強</button>
-              <button id="土マナ強化" class="土マナ強化" onclick="toggleButton(this)">強</button>
-              <button id="光マナ強化" class="光マナ強化" onclick="toggleButton(this)">強</button>
-              <button id="闇マナ強化" class="闇マナ強化" onclick="toggleButton(this)">強</button>
-            </div>
-          </div>
-        </div>
-        <div name="スキル使用ブロック">
-          <div class="大ブロックタイトル">スキル使用</div>
-          <div class='スキル選択ブロック外枠' >
-            <div name="スキル選択タイトル" class="武器検索タイトル">スキルを選択</div>
-            <div id="スキル選択中身ブロック" class="スキル選択中身ブロック">
-              <select id="対象プルダウンリスト" class="武器プルダウンリスト" onchange="スキル選択対象選択後(this.selectedIndex)">
-                <option value="武器">自身の武器</option>
-                <option value="補助の武器">補助の武器</option>
-              </select>
-              <select id="武器プルダウンリスト" class="武器プルダウンリスト" onchange="スキル選択武器選択後(this.selectedIndex)">
-                <option value=""> -- 武器を選択 -- </option>
-              </select>
-              <select id="スキル区分プルダウンリスト" class="スキル区分プルダウンリスト" onchange="スキルスキル区分選択後(this)">
-                <option value="">スキル区分選択</option>
-              </select>
-            </div>
-            <div name="経過時間ブロック" class="経過時間">
-              <div>経過時間：</div>
-              <div>
-                <input type="number" min="0" value="0" class="経過時間入力欄"/>分
-                <input type="number" min="0" value="0" class="経過時間入力欄"/>秒
-              </div>
-              <div>
-                <button id="スキル確定" class="スキル確定" onclick="スキル使用確定()">確定</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div name="ダメージ表記ブロック">
-          <div class="大ブロックタイトル">ダメージ</div>
-          <div name="ダメージ表記外枠ブロック" class='ダメージ表記外枠ブロック'>
-            <div name="今回のダメージブロック" class='今回のダメージブロック'>
-              <div name="ダメージタイトル">
-                ダメージ 
-              </div>
-              <div name="ダメージ">
-                0
-              </div>
-              <div name="ヒット数タイトル">
-                ヒット数
-              </div>
-              <div name="ヒット数">
-                0
-              </div>
-            </div>
-            
-            <div name="ダメージ詳細外枠" class="ダメージ詳細外枠">
-              <div name="詳細">詳細</div>
-              <div class="ダメージ詳細">
-                <div name="単発ダメージ">
-                  単発ダメージ × 
-                </div>
-                <div name="追撃">
-                  追撃 × 
-                </div>
-              </div>
-            </div>
-            <div name="累計ダメージブロック" class="今回のダメージブロック">
-              <div name="累計ダメージタイトル">
-                累計ダメージ
-              </div>
-              <div name="累計ダメージ">
-                0
-              </div>
-              <div name="累計ヒット数タイトル">
-                累計ヒット数
-              </div>
-              <div name="累計ヒット数">
-                0
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div name="累計バフ">
-        <div class="大ブロックタイトル">累計バフ</div>
-        <div name="累計バフ外枠ブロック" class='累計バフ外枠ブロック'>
-
-        </div>
+      <span class="fa fa-bars menu-icon"></span>
+      <div class="header-right">
+        <a href="#">レッスン</a>
+        <a href="#">新規登録</a>
+        <a href="#" class="login">ログイン</a>
       </div>
     </div>
-
-    <script>
-      const 全武器リスト = <?=全武器リスト?>.split(",");
-      const 全武器武器種 = <?=全武器武器種?>.split(",");
-      const 全武器武器ID = <?=全武器武器ID?>.split(",");
-      const 全武器武器属性ID = <?=全武器武器属性ID?>.split(",");
-      const 全武器武器種ごとの制限がある = <?=全武器武器種ごとの制限がある?>.split(",");
-      const 全武器本数の制限ID = <?=全武器本数の制限ID?>.split(",");
-      const 全武器グループごとの制限ID = <?=全武器グループごとの制限ID?>.split(",");
-      const 全武器スキル武器ID = <?=全武器スキル武器ID?>.split(",");
-      const 全武器スキルカテゴリーID = <?=全武器スキルカテゴリーID?>.split(",");
-      const 全武器スキルカテゴリーリスト = <?=全武器スキルカテゴリーリスト?>.split(",");
-
-      function toggleButton(button) {
-        button.classList.toggle('clicked');
-      }
-
-      function 武器ブロック記入(武器番号){
-        const 変更文章 = '<div class=\'武器ブロックタイトル\'>武器'+武器番号+'</div> <div class=\'武器ブロック中身\'> <div class=\'武器検索ブロック\'> <div class=\'武器検索タイトル\'>武器を検索</div> <div class="武器検索中身"> <select id="武器種選択" class=\'武器種選択プルダウンリスト\' onchange="武器種選択後(this.selectedIndex,\'武器選択'+武器番号+'\');"> <option value="">-- 武器種を選択 --</option> <? for(武器種 of 武器種リスト){ ?><option value="<?=武器種?>"><?=武器種?></option> <?} ?> </select> <select id="武器選択'+武器番号+'" class=\'武器選択プルダウンリスト\' onchange=\'武器選択後(this,"武器",'+武器番号+');\'> <option value="">-- 武器を選択 --</option> <? for(武器名 of 全武器リスト){ ?><option value="<?=武器名?>"><?=武器名?></option> <?} ?> </select> </div> </div> <div class="属性AF選択ブロック"> <div class=\'属性選択タイトル\'>属性指定</div> <div class="属性選択中身"> <select id="武器'+武器番号+'属性選択" class="属性選択プルダウンリスト"> <option value="">-- 属性を選択 --</option> </select> </div> <div class=\'AF選択タイトル\'>AF指定</div> <div class="AF選択中身"> <select id="武器'+武器番号+'AF選択1" class="AF選択プルダウンリスト"> <option value="">-- AFを選択 --</option> </select><select id="武器'+武器番号+'AF選択2" class="AF選択プルダウンリスト"> <option value="">-- AFを選択 --</option> </select> </div>  </div> <div class="slv選択ブロック"> <div class=\'slv選択タイトルブロック\'> <div class=\'slv選択タイトル\'>sLv指定</div> <div class=\'slv\'>sLv.</div> </div> <div class=\'slv選択中身\' id=\'武器'+武器番号+'スキルごとのslvブロック選択\'> </div> </div> </div>'
-        let 挿入対象オブジェクト = document.getElementById("武器"+武器番号);
-        挿入対象オブジェクト.insertAdjacentHTML('beforeend',変更文章);
-      }
-
-      let 付与効果 = {
-        経過時間:0,
-        付与効果:[]
-      };
-
-      let 選択中スキル付与効果 = {
-        is武器スキルリスト読み込み中:false,
-        武器スキル:[],
-        武器スキル内容リスト:[]
-      };
-
-      class 武器クラス{
-        武器番号 = null;
-        武器idx = -1;
-        武器ID = null;
-        武器名 = null;
-        スキルカテゴリーリスト = [];
-        武器選択属性 = "";
-        武器種 = null;
-
-        is武器スキルリスト読み込み中=false;
-        武器スキルリスト = [];
-        武器スキル内容リスト = [];
-
-        装備制限 = {
-          武器種ごとの制限がある: false,
-          本数の制限ID: 0,
-          グループごとの制限ID: 0
-        };
-
-        constructor(武器番号) {
-          this.武器番号 = 武器番号;
-        };
-
-        getスキルidx(){
-          return 全武器スキル武器ID.flatMap((行要素, 行idx) => 行要素 == this.武器ID ? 行idx : []);
-        }
-
-        スキルリスト変更(){
-          if(this.武器ID==null){
-            let 変更オブジェクト = document.getElementById('スキルリスト武器'+this.武器番号);
-            変更オブジェクト.remove();
-          }else{
-            let 変更オブジェクト名='スキルリスト武器'+this.武器番号;
-            const 挿入文章='<option value="'+this.武器番号+'" id=\''+変更オブジェクト名+'\'>'+this.武器名+'</option>';
-            if(document.getElementById(変更オブジェクト名) == null){
-              let 変更オブジェクト = document.getElementById('武器プルダウンリスト');
-              変更オブジェクト.insertAdjacentHTML('beforeend',挿入文章);
-            }else{
-              let 変更オブジェクト = document.getElementById(変更オブジェクト名);
-              変更オブジェクト.innerHTML = (挿入文章);
-            }
-          }
-          
-        }
-        装備情報読み込み(武器idx){
-          if(武器idx == -1){
-            装備.武器[this.武器番号-1] = new 武器クラス(this.武器番号);
-          }else{
-            this.武器ID = 全武器武器ID[武器idx];
-            this.武器名 = 全武器リスト[武器idx];
-            this.武器種 = 全武器武器種[武器idx];
-            this.idx = this.getスキルidx();
-            this.スキルカテゴリーリスト = getスキルカテゴリーリスト(this.idx);
-
-            
-            this.is武器スキルリスト読み込み中=true;
-            const 武器 = this;
-            google.script.run.withSuccessHandler(武器.スキル読み込み).武器読み込み(this.武器ID,this);
-          }
-
-          function getスキルカテゴリーリスト(スキルidx){
-            const スキルカテゴリーIDリスト = スキルidx.map(idx => 全武器スキルカテゴリーID[idx]);
-            const スキルカテゴリーリスト = スキルカテゴリーIDリスト.map(スキルカテゴリーID=>全武器スキルカテゴリーリスト[Number(スキルカテゴリーID)-1])
-            return スキルカテゴリーリスト
-          }
-        }
-
-        スキル読み込み([スキルリスト,スキル内容リスト,武器]){
-          console.log("いれたよ？")
-          武器.武器スキルリスト = スキルリスト;
-          武器.武器スキル内容リスト = スキル内容リスト;
-          武器.is武器スキルリスト読み込み中=false;
-          console.log(武器)
-        }
-      }
-
-      class 補助の武器クラス extends 武器クラス{
-        装備情報読み込み(武器idx){
-          if(武器idx == -1){
-            装備.補助の武器[this.武器番号-1] = new 補助の武器クラス(this.武器番号);
-          }else{
-            this.武器ID = 全武器武器ID[武器idx];
-            this.武器名 = 全武器リスト[武器idx];
-            this.武器種 = 全武器武器種[武器idx];
-            this.idx = this.getスキルidx();
-            this.スキルカテゴリーリスト = getスキルカテゴリーリスト(this.idx);
-            google.script.run.withSuccessHandler(function([スキルリスト,スキル内容リスト]){
-              //console.log(スキルリスト)
-              //console.log(スキル内容リスト)
-            }).武器読み込み(this.武器ID);
-          }
-
-          function getスキルカテゴリーリスト(スキルidx){
-            const スキルカテゴリーIDリスト = スキルidx.map(idx => 全武器スキルカテゴリーID[idx]);
-            const スキルカテゴリーリスト = スキルカテゴリーIDリスト.map(スキルカテゴリーID=>全武器スキルカテゴリーリスト[Number(スキルカテゴリーID)-1])
-            return スキルカテゴリーリスト
-          }
-        }
-      }
-
-      class 装備クラス{
-        武器 = [];
-        補助の武器 = [];
-        装備制限 = {
-          武器種ごとの制限がある: false,
-          本数の制限ID: [],
-          グループごとの制限ID: []
-        };
-        constructor(){
-          this.武器をセット()
-        }
-        武器をセット(){
-          for(let 武器番号=1;武器番号<=5;武器番号++){
-            this.武器.push(new 武器クラス(武器番号))
-            武器ブロック記入(武器番号)
-          }
-        }
-      }
-
-      
-
-      const 装備 = new 装備クラス();
-
-      function 補助の武器ブロック記入(武器番号){
-        const 変更文章 = '<div class=\'補助の武器ブロック外枠\' id=\'補助の武器'+武器番号+'\'><div class="横並べ両端余白なし"><div class=\'武器ブロックタイトル\' id="補助の武器'+武器番号+'タイトル">補助の武器'+武器番号+'</div><div><button onclick="補助の装備追加ブロック削除(this)" id="削除ボタン補助の武器'+武器番号+'">削除</button></div></div> <div class=\'武器ブロック中身\'> <div class=\'武器検索ブロック\'> <div class=\'武器検索タイトル\'>武器を検索</div> <div class="補助の武器検索中身"> <select id="補助の武器種選択武器'+武器番号+'" class=\'武器種選択プルダウンリスト\' onchange="武器種選択後(this.selectedIndex,\'補助の武器選択'+武器番号+'\');"> <option value="">-- 武器種を選択 --</option> <? for(武器種 of 武器種リスト){ ?><option value="<?=武器種?>"><?=武器種?></option> <?} ?> </select> <select id="補助の武器選択'+武器番号+'" class=\'武器選択プルダウンリスト\' onchange=\'武器選択後(this,"補助の武器",'+武器番号+');\'> <option value="">-- 武器を選択 --</option> <? for(武器名 of 全武器リスト){ ?><option value="<?=武器名?>"><?=武器名?></option> <?} ?> </select> </div> </div> <div class="属性AF選択ブロック"> <div class=\'属性選択タイトル\'>属性指定</div> <div class="補助の属性選択中身"> <select id="補助の武器'+武器番号+'属性選択" class="属性選択プルダウンリスト"> <option value="">-- 属性を選択 --</option> </select> </div> <div class=\'AF選択タイトル\'>AF指定</div> <div class="補助のAF選択中身"> <select id="補助の武器'+武器番号+'AF選択1" class="AF選択プルダウンリスト"> <option value="">-- AFを選択 --</option> </select><select id="補助の武器'+武器番号+'AF選択2" class="AF選択プルダウンリスト"> <option value="">-- AFを選択 --</option> </select> </div>  </div> <div class="slv選択ブロック"> <div class=\'slv選択タイトルブロック\'> <div class=\'slv選択タイトル\'>sLv指定</div> <div class=\'slv\'>sLv.</div> </div> <div class=\'補助のslv選択中身\' id=\'補助の武器'+武器番号+'スキルごとのslvブロック選択\'> </div> </div> </div></div>'
-        let 挿入対象オブジェクト = document.getElementById('補助の全武器ブロック');
-        挿入対象オブジェクト.insertAdjacentHTML('beforeend',変更文章);
-      }
-
-      function 補助の装備追加ブロック記入(){
-        const 武器番号 = 装備.補助の武器.length+1;
-        装備.補助の武器.push(new 補助の武器クラス(武器番号))
-        補助の武器ブロック記入(武器番号)
-      }
-
-      function 補助の装備追加ブロック削除(Object){
-        const 削除武器番号 = Number(Object.id.slice(-1));
-        装備.補助の武器.splice(削除武器番号-1,1)
-        Object.parentElement.parentElement.parentElement.remove();
-        
-        for(let 武器番号 = 削除武器番号+1; 武器番号 <= 装備.補助の武器.length+1; 武器番号++){
-          document.getElementById('補助の武器'+武器番号).id='補助の武器'+(武器番号-1);
-          document.getElementById('補助の武器'+武器番号+'タイトル').innerHTML='補助の武器'+(武器番号-1);
-          document.getElementById('補助の武器'+武器番号+'タイトル').id='補助の武器'+(武器番号-1)+'タイトル';
-          document.getElementById('削除ボタン補助の武器'+武器番号).id='削除ボタン補助の武器'+(武器番号-1);
-          document.getElementById('補助の武器種選択武器'+武器番号).onchange='武器種選択後(this.selectedIndex,\'補助の武器選択'+武器番号+'\');';
-          document.getElementById('補助の武器種選択武器'+武器番号).id='補助の武器種選択武器'+(武器番号-1);
-          document.getElementById('補助の武器選択'+武器番号).onchange = '武器選択後(this,"補助の武器",'+武器番号+');';
-          document.getElementById('補助の武器選択'+武器番号).id='補助の武器選択'+(武器番号-1);
-          document.getElementById('補助の武器'+武器番号+'AF選択1').id='補助の武器'+(武器番号-1)+'AF選択1';
-          document.getElementById('補助の武器'+武器番号+'AF選択2').id='補助の武器'+(武器番号-1)+'AF選択2';
-          document.getElementById('補助の武器'+武器番号+'スキルごとのslvブロック選択').id='補助の武器'+(武器番号-1)+'スキルごとのslvブロック選択';
-        }
-      }
-
-      function 武器種選択後(武器種index,変更オブジェクトid){
-        let 対象武器リスト;
-        if(武器種index==0){
-          対象武器リスト = 全武器リスト;
-        }else{
-          対象武器リスト = get対象武器リスト(武器種index);
-        }
-        let 変更オブジェクト = document.getElementById(変更オブジェクトid);
-        let 変更文章 = '<option value="">-- 武器を選択 --</option>';
-        for (対象武器 of 対象武器リスト){
-          変更文章 += '<option value='+対象武器+'>'+対象武器+'</option>'
-        }
-        変更オブジェクト.innerHTML = 変更文章;
-      }
-
-      function get対象武器リスト(武器種index){
-        const 対象index = 全武器武器種.map(num=>num==武器種index);
-        
-        let 対象武器リスト = [];
-        for(index in 全武器リスト){
-          if(対象index[index]){
-            対象武器リスト.push(全武器リスト[index])
-          }
-        }
-        return 対象武器リスト;
-      }
-
-      function スキル選択対象選択後(選択index){
-        const 変更オブジェクト = document.getElementById('武器プルダウンリスト');
-        let 変更文章 ='<select id="武器プルダウンリスト" class="武器プルダウンリスト"><option value=""> -- 武器を選択 -- </option>';
-        if(選択index==1){//補助の装備
-          装備.補助の武器.filter(武器=>武器.武器名!=null).forEach(武器=>(
-            変更文章+='<option value="'+武器.武器番号+'" id=\'補助の武器'+武器.武器名+'\'>'+武器.武器名+'</option>'
-          ))
-          変更文章+='</select>'
-          変更オブジェクト.innerHTML = 変更文章;
-        }else{//自身の装備
-          装備.武器.filter(武器=>武器.武器名!=null).forEach(武器=>(
-            変更文章+='<option value="'+武器.武器番号+'" id=\'武器'+武器.武器名+'\'>'+武器.武器名+'</option>'
-          ))
-          変更文章+='</select>'
-          変更オブジェクト.innerHTML = 変更文章;
-        }
-      }
-
-      function スキル選択武器選択後(選択index){
-        if(選択index==0){
-          スキル選択スキル区分選択初期化();
-        }else{
-          const 武器番号=Number(get選択optionValue('武器プルダウンリスト'));
-          スキル区分変更(武器番号);
-        }
-
-        function スキル区分変更(武器番号){
-          const 装備対象 = get選択optionValue("対象プルダウンリスト");
-          let 武器;
-          if(装備対象=="武器"){
-            武器=装備.武器[武器番号-1]
-          }else{
-            武器=装備.補助の武器[武器番号-1]
-          }
-          const 英雄か伝説 = get選択optionValue("スキル区分選択プルダウンリスト");
-          let 変更文章='<option value="">スキル区分選択</option>';
-
-          武器.スキルカテゴリーリスト.filter(スキルカテゴリー=>(スキルカテゴリー=='専用'||スキルカテゴリー=='必殺')).forEach(スキルカテゴリー=>{
-            変更文章+='<option id=\'スキル区分リスト'+スキルカテゴリー+'\'>'+スキルカテゴリー+'</option>'
-          })
-
-          if(英雄か伝説!=null){
-            変更文章+='<option id=\'スキル区分リスト'+英雄か伝説+'\'>'+英雄か伝説+'</option>'
-          }
-          let 変更オブジェクト = document.getElementById('スキル区分プルダウンリスト');
-          変更オブジェクト.innerHTML = (変更文章);
-        }
-
-        function スキル選択スキル区分選択初期化(){
-          document.getElementById('スキル区分プルダウンリスト').innerHTML = ('<option value="">スキル区分選択</option>');
-        }
-        function get選択optionValue(selectObjName){
-          console.log(selectObjName)
-          const selectObj = document.getElementById(selectObjName);
-          if (selectObj === null){
-            return null
-          }else{
-            const 武器名プルダウンidx = selectObj.selectedIndex;
-            return selectObj.options[武器名プルダウンidx].value
-          }
-        }
-      }
-
-      function スキルスキル区分選択後(Object){
-        const 装備対象 = get選択OptionValueByName('対象プルダウンリスト');
-        const 武器番号 = Number(get選択OptionValueByName('武器プルダウンリスト'));
-        const 選択スキル区分 = get選択OptionValueByObj(Object);
-        const 武器 = 装備対象=="武器"?装備.武器[武器番号-1]:装備.補助の武器[武器番号-1];
-        console.log("武器番号"+武器番号)
-        console.log(武器)
-
-        選択中スキル付与効果.is武器スキルリスト読み込み中 = 武器.is武器スキルリスト読み込み中;
-        選択中スキル付与効果.武器スキル = 武器.武器スキルリスト;
-        選択中スキル付与効果.武器スキル内容リスト = 武器.武器スキル内容リスト;
-
-        console.log(選択中スキル付与効果)
-
-        function get選択OptionValueByObj(selectObj){
-          const 武器名プルダウンidx = selectObj.selectedIndex;
-          return 武器名プルダウンidx!=-1 ? selectObj.options[武器名プルダウンidx].value : null;
-        }
-        function get選択OptionValueByName(selectObjName){
-          const selectObj = document.getElementById(selectObjName);
-          const 武器名プルダウンidx = selectObj.selectedIndex;
-          return 武器名プルダウンidx!=-1 ? selectObj.options[武器名プルダウンidx].value : null;
-        }
-      }
-
-      function 武器選択後(selectObj,装備対象,武器番号){
-        const 武器idx = get武器idx(selectObj);
-        const 選択可能属性 = get選択可能属性(武器idx);
-        const スキルを使用選択対象 = get選択optionValue("対象プルダウンリスト");
-        if(装備対象=="武器"){
-          装備.武器[武器番号-1].装備情報読み込み(武器idx);
-          if(スキルを使用選択対象==装備対象){
-            装備.武器[武器番号-1].スキルリスト変更()
-          }
-        }else{
-          装備.補助の武器[武器番号-1].装備情報読み込み(武器idx);
-          if(スキルを使用選択対象==装備対象){
-            装備.補助の武器[武器番号-1].スキルリスト変更()
-          }
-        }
-        属性選択リスト変更(選択可能属性,装備対象+武器番号+'属性選択');
-        スキルカテゴリーリスト変更(武器番号,武器idx,装備対象);
-
-        function get武器idx(selectObj){
-          const 武器名プルダウンidx = selectObj.selectedIndex;
-          const 武器名 = selectObj.options[武器名プルダウンidx].value;
-          return 全武器リスト.indexOf(武器名)
-        }
-        function get選択optionValue(selectObjName){
-          const selectObj = document.getElementById(selectObjName);
-          const 武器名プルダウンidx = selectObj.selectedIndex;
-          return selectObj.options[武器名プルダウンidx].value;
-        }
-      }
-
-      function スキルカテゴリーリスト変更(武器番号,武器idx,装備対象){
-        let 専用文章 = '<div id=\''+装備対象+武器番号+'専用\' class="武器ごとのスキルブロック"><div class="スキル区分">';
-        let 必殺文章 = '<div id=\''+装備対象+武器番号+'必殺\' class="武器ごとのスキルブロック"><div class="スキル区分">';
-        let 収束全弾文章 = '<div id=\''+装備対象+武器番号+'収束全弾\' class="武器ごとのスキルブロック"><div class="スキル区分">';
-        let 覚醒文章 = '<div id=\''+装備対象+武器番号+'覚醒\' class="武器ごとのスキルブロック"><div class="スキル区分">';
-        let 伝説英雄文章 = '<div id=\''+装備対象+武器番号+'伝説英雄\' class="武器ごとのスキルブロック"><div class="スキル区分">';
-        let EX文章 = '<div id=\''+装備対象+武器番号+'EX\' class="武器ごとのスキルブロック"><div class="スキル区分">';
-        let 伝説英雄がある = false;
-        let スキル区分;
-        const スキルレベルリスト文章 = '</div><select class=\"slv選択プルダウンリスト\"><option value="1"> 1 </option><option value="2"> 2 </option><option value="3"> 3 </option><option value="4"> 4 </option><option value="5"> 5 </option></select>';
-        const スキルレベル文章 = '</div><div>1</div>';
-        
-        const 対象武器クラスリスト = 装備対象=="武器"?装備.武器:装備.補助の武器;
-        if (武器idx==-1){
-        }else if(対象武器クラスリスト[武器番号-1].スキルカテゴリーリスト.length==0){
-          専用文章 += 'スキル未登録'
-        }else{
-          for(スキルカテゴリー of 対象武器クラスリスト[武器番号-1].スキルカテゴリーリスト){
-            switch(スキルカテゴリー){
-              case '専用': 専用文章+=スキルカテゴリー+スキルレベルリスト文章;break;
-              case '必殺': 必殺文章+=スキルカテゴリー+スキルレベルリスト文章;break;
-              case '覚醒': 覚醒文章+=スキルカテゴリー+スキルレベル文章;break;
-              case '収束': 収束文章+=スキルカテゴリー+スキルレベル文章;break;
-              case '全弾': 全弾文章+=スキルカテゴリー+スキルレベル文章;break;
-              case 'EX': EX文章+=スキルカテゴリー+スキルレベル文章;break;
-              case '伝説':
-                if(!伝説英雄がある){
-                  伝説英雄文章 += '<select class="スキル区分選択プルダウンリスト" id="スキル区分選択プルダウンリスト">';
-                  伝説英雄がある = !伝説英雄がある;
-                }
-                伝説英雄文章 += "<option value=\"伝説\">"+'伝説'+"</option>";break;
-              case '英雄':
-                if(!伝説英雄がある){
-                  伝説英雄文章 += '<select class="スキル区分選択プルダウンリスト" id="スキル区分選択プルダウンリスト">';
-                  伝説英雄がある = !伝説英雄がある;
-                }
-                伝説英雄文章 += "<option value=\"英雄\">"+'英雄'+"</option>";break;
-              default: break;
-            }
-          }
-          if(伝説英雄がある){伝説英雄文章 += '</select>'+スキルレベルリスト文章;}
-        }
-
-        専用文章 +='</div></div>';
-        必殺文章 +='</div></div>';
-        収束全弾文章 +='</div></div>';
-        EX文章 +='</div></div>';
-        覚醒文章 +='</div></div>';
-        伝説英雄文章 +='</div></div>';
-        let 変更オブジェクト;
-        if(装備対象=="武器"){
-          変更オブジェクト = document.getElementById('武器'+武器番号+'スキルごとのslvブロック選択');
-        }else{
-          変更オブジェクト = document.getElementById('補助の武器'+武器番号+'スキルごとのslvブロック選択');
-        }
-        変更オブジェクト.innerHTML = 専用文章+必殺文章+収束全弾文章+EX文章+覚醒文章+伝説英雄文章;
-      }
-
-      function 属性選択リスト変更(選択可能属性,変更オブジェクトid){
-        let 変更オブジェクト = document.getElementById(変更オブジェクトid);
-        let 変更文章 = "";
-        if(選択可能属性.length!=1){
-          変更文章+='<option value="">-- 属性を選択 --</option>';
-        }
-        for (属性 of 選択可能属性){
-          変更文章 += '<option value='+属性+'>'+属性+'</option>'
-        }
-        変更オブジェクト.innerHTML = 変更文章;
-      }
-
-      function get選択可能属性(武器idx){
-        let 武器属性ID;
-        if (武器idx == -1){
-          武器属性ID = 9;
-        }else{
-          武器属性ID = 全武器武器属性ID[武器idx];
-        }
-        let 選択可能属性;
-        switch(武器属性ID){
-          case '1':	選択可能属性 = ['火']; break;
-          case '2':	選択可能属性 = ['水']; break;
-          case '3':	選択可能属性 = ['風']; break;
-          case '4':	選択可能属性 = ['土']; break;
-          case '5':	選択可能属性 = ['光']; break;
-          case '6':	選択可能属性 = ['闇']; break;
-          case '7':	選択可能属性 = ['火','水','風','土']; break;
-          case '8':	選択可能属性 = ['光','闇']; break;
-          case '9':	選択可能属性 = ['火','水','風','土','光','闇']; break;
-          default: 選択可能属性 = []; break;
-        }
-        return 選択可能属性
-      }
-    </script>
-  </body>
-  
+  </header>
+  <div class="top-wrapper">
+    <div class="container">
+      <h1>LEARN TO CODE.<br>LEARN TO BE CREATIVE.</h1>
+      <p>Progateはオンラインプログラミング学習サービスです。<br>初心者にもやさしいスライドとレッスンで、ウェブサービスを作りながらプログラミングを学んでいきましょう。</p>
+      <div class="btn-wrapper">
+        <a href="#" class="btn signup">新規登録はこちら</a>
+        <p>or</p>
+        <a href="#" class="btn facebook"><span class="fa fa-facebook"></span>Facebookで登録</a>
+        <a href="#" class="btn twitter"><span class="fa fa-twitter"></span>Twitterで登録</a>
+      </div>
+    </div>
+  </div>
+  <div class="lesson-wrapper">
+    <div class="container">
+      <div class="heading">
+        <h2>Learn Where to Get Started!</h2>
+      </div>
+      <div class="lessons">
+        <div class="lesson">
+          <div class="lesson-icon">
+            <img src="https://prog-8.com/images/html/advanced/html.png">
+            <p>HTML & CSS</p>
+          </div>
+          <p class="text-contents">ウェブページの作成に使用される言語です。HTMLとCSSを組み合わせることで、静的なページを作り上げることができます。</p>
+        </div>
+        <div class="lesson">
+          <div class="lesson-icon">
+            <img src="https://prog-8.com/images/html/advanced/jQuery.png">
+            <p>jQuery</p>
+          </div>
+          <p class="text-contents">素敵な動きを手軽に実装できるJavaScriptライブラリです。 アニメーション効果をつけたり、Ajax（エイジャックス）を使って外部ファイルを読み込んだりと色々なことができます。</p>
+        </div>
+        <div class="lesson">
+          <div class="lesson-icon">
+            <img src="https://prog-8.com/images/html/advanced/ruby.png">
+            <p>Ruby</p>
+          </div>
+          <p class="text-contents">オープンソースの動的なプログラミング言語で、 シンプルさと高い生産性を備えています。大きなWebアプリケーションから小さな日用ツールまで、さまざまなソフトウェアを作ることができます。</p>
+        </div>
+        <div class="lesson">
+          <div class="lesson-icon">
+            <img src="https://prog-8.com/images/html/advanced/php.png">
+            <p>PHP</p>
+          </div>
+          <p class="text-contents">HTMLだけではページの内容を変えることはできません。PHPはHTMLにプログラムを埋め込み、それを可能にします。</p>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="message-wrapper">
+    <div class="container">
+      <div class="heading">
+        <h2>さぁ、あなたもProgateでプログラミングを学んでみませんか?</h2>
+        <h3>Let's learn to code, learn to be creative!</h3>
+      </div>
+      <span class="btn message">さっそく開発する</span>
+    </div>
+  </div>
+  <footer>
+    <div class="container">
+      <img src="https://prog-8.com/images/html/advanced/footer_logo.png">
+      <p>Learn to Code, Learn to be Creative.</p>
+    </div>
+  </footer>
+</body>
 </html>
